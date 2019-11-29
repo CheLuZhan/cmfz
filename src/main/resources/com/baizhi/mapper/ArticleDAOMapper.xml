@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.ArticleDAO">
+    <select id="selectAllArticle" resultType="Article">
+        select *
+        from article
+        limit #{start},#{rows}
+    </select>
+    <!--查询条数-->
+    <select id="selectCount" resultType="Integer">
+        select count(id)
+        from article
+    </select>
+
+    <!--添加-->
+    <insert id="addArticle">
+        insert into article
+        values (#{id}, #{title}, #{state}, #{author}, #{content}, #{date})
+    </insert>
+    <!--修改-->
+    <update id="updateArticle">
+        update article
+        set title=#{title},
+            state=#{state},
+            author=#{author},
+            content=#{content},
+            `date`=#{date}
+        where id = #{id}
+    </update>
+    <!--查询所有-->
+    <select id="getAll" resultType="Article">
+        select *
+        from article
+    </select>
+    <!--文章时间排序-->
+    <select id="selectArticleByTime" resultType="Article">
+        select *
+        from article
+        order by date
+        limit 0,5
+    </select>
+    <!--查询文章信息-->
+    <select id="seleArticleDetail" resultType="Article">
+        select id, title, state, author, content, date
+        from article
+        where id = #{id}
+    </select>
+</mapper>

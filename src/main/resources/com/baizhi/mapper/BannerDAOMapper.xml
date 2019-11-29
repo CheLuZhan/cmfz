@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.BannerDAO">
+    <!--分页查询-->
+    <select id="selectAllBanner" resultType="Banner">
+        select *
+        from banner
+        limit #{start},#{rows}
+    </select>
+    <!--查询条数-->
+    <select id="selectCount" resultType="Integer">
+        select count(id)
+        from banner
+    </select>
+    <!--添加轮播图-->
+    <insert id="add">
+        insert into banner
+        values (#{id}, #{title}, #{description}, #{date}, #{state}, #{src})
+    </insert>
+    <!--修改-->
+    <update id="update">
+        update banner
+        set title=#{title},
+            description=#{description},
+            date=#{date},
+            state=#{state}
+        where id = #{id}
+    </update>
+    <!--修改图片-->
+    <update id="updateSrc">
+        update banner
+        set src=#{newFileName}
+        where id = #{id}
+    </update>
+    <!--删除-->
+    <delete id="delete">
+        delete from banner where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--查所有-->
+    <select id="selectAll" resultType="Banner">
+        select *
+        from banner
+    </select>
+
+    <!--查询最新轮播图-->
+    <select id="selectByTime" resultType="Banner">
+        select *
+        from banner
+        order by date desc
+        limit 0,5
+    </select>
+</mapper>

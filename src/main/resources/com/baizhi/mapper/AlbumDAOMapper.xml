@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.AlbumDAO">
+    <select id="selectAllAlbum" resultType="Album">
+        select id,
+               title,
+               grade,
+               author,
+               announcer,
+               number,
+               intro,
+               state,
+               publish_time publishTime,
+               upload_time  uploadTime,
+               src
+        from album
+        limit #{start},#{rows}
+    </select>
+    <!--查询条数-->
+    <select id="selectCount" resultType="Integer">
+        select count(id)
+        from album
+    </select>
+    <!--添加-->
+    <insert id="add">
+        insert into album
+        values (#{id}, #{title}, #{grade}, #{author}, #{announcer}, #{number},
+                #{intro}, #{state}, #{publishTime}, #{uploadTime}, #{src})
+    </insert>
+    <!--修改图片信息-->
+    <update id="update">
+        update album
+        set src=#{newFileName}
+        where id = #{id}
+    </update>
+    <!--批量删除-->
+    <delete id="delete">
+        delete from album where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--修改信息-->
+    <update id="updateAlbum">
+        update album
+        set title=#{title},
+            grade=#{grade},
+            author=#{author},
+            announcer=#{announcer},
+            number=#{number},
+            intro=#{intro},
+            state=#{state},
+            publish_time=#{publishTime}
+        where id = #{id}
+    </update>
+
+    <!--修改number-->
+    <update id="updateNumber">
+        update album
+        set number=#{number}
+        where id = #{id}
+    </update>
+
+    <!--查询所有Album-->
+    <select id="getAllAlbum" resultType="Album">
+        select id,
+               title,
+               grade,
+               author,
+               announcer,
+               number,
+               intro,
+               state,
+               publish_time publishTime,
+               upload_time  uploadTime,
+               src
+        from album
+    </select>
+    <!--时间排序-->
+    <select id="selectAlbumByTime" resultType="Album">
+        select id,
+               title,
+               grade,
+               author,
+               announcer,
+               number,
+               intro,
+               state,
+               publish_time publishTime,
+               upload_time  uploadTime,
+               src
+        from album
+        order by publish_time desc
+    </select>
+    <!--查询专辑信息-->
+    <select id="selectAlbumById" resultType="Album">
+        select id,
+               title,
+               grade,
+               author,
+               announcer,
+               number,
+               intro,
+               state,
+               publish_time publishTime,
+               upload_time  uploadTime,
+               src
+        from album
+        where id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.ChapterDAO">
+    <!--分页查询-->
+    <select id="selectAllChapter" resultType="Chapter">
+        select id, title, size, time, upload_time uploadTime, music, album_id albumId
+        from chapter
+        where album_id = #{aid}
+        limit #{start},#{rows}
+    </select>
+    <!--查询条数-->
+    <select id="selectCount" resultType="Integer">
+        select count(id)
+        from chapter
+        where album_id = #{aid}
+    </select>
+    <!--添加-->
+    <insert id="add">
+        insert into chapter
+        values (#{id}, #{title}, #{size}, #{time}, #{uploadTime}, #{music}, #{albumId})
+    </insert>
+    <!--修改audio-->
+    <update id="updateAudio">
+        update chapter
+        set size=#{size},
+            time=#{time},
+            music=#{newFileName},
+            album_id=#{albumId}
+        where id = #{bid}
+    </update>
+    <!--修改chapter-->
+    <update id="updateChapter">
+        update chapter
+        set title=#{title},
+            size=#{size},
+            time=#{time}
+        where id = #{id}
+    </update>
+    <!--批量删除-->
+    <delete id="delete">
+        delete from chapter where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <!--专辑id查询音频-->
+    <select id="selectByAlbumId" resultType="Chapter">
+        select id, title, size, time, upload_time uploadTime, music, album_id albumId
+        from chapter
+        where album_id = #{albumId}
+    </select>
+</mapper>
